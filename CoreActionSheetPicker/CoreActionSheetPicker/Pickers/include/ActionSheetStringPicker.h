@@ -34,6 +34,7 @@
 @class ActionSheetStringPicker;
 typedef void(^ActionStringDoneBlock)(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue);
 typedef void(^ActionStringCancelBlock)(ActionSheetStringPicker *picker);
+typedef void(^ActionStringSelectionUpdatedBlock)(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue);
 
 @interface ActionSheetStringPicker : AbstractActionSheetPicker <UIPickerViewDelegate, UIPickerViewDataSource>
 /**
@@ -56,11 +57,12 @@ typedef void(^ActionStringCancelBlock)(ActionSheetStringPicker *picker);
 
 
 /// Create and display an action sheet picker sheet with completion blocks for success/cancel.
-+ (instancetype)showPickerWithTitle:(NSString *)title rows:(NSArray *)strings initialSelection:(NSInteger)index doneBlock:(ActionStringDoneBlock)doneBlock cancelBlock:(ActionStringCancelBlock)cancelBlock origin:(id)origin;
++ (instancetype)showPickerWithTitle:(NSString *)title rows:(NSArray *)strings initialSelection:(NSInteger)index selectionUpdatedBlock:(ActionStringSelectionUpdatedBlock)selectionUpdatedBlock doneBlock:(ActionStringDoneBlock)doneBlock cancelBlock:(ActionStringCancelBlock)cancelBlock origin:(id)origin;
 
 /// Create an action sheet picker with completion blocks for success/cancel, but don't display until a subsequent call to "showActionPicker".
-- (instancetype)initWithTitle:(NSString *)title rows:(NSArray *)strings initialSelection:(NSInteger)index doneBlock:(ActionStringDoneBlock)doneBlock cancelBlock:(ActionStringCancelBlock)cancelBlockOrNil origin:(id)origin;
+- (instancetype)initWithTitle:(NSString *)title rows:(NSArray *)strings initialSelection:(NSInteger)index selectionUpdatedBlock:(ActionStringSelectionUpdatedBlock)selectionUpdatedBlock doneBlock:(ActionStringDoneBlock)doneBlock cancelBlock:(ActionStringCancelBlock)cancelBlockOrNil origin:(id)origin;
 
+@property (nonatomic, copy) ActionStringSelectionUpdatedBlock onActionSheetSelectionUpdated;
 @property (nonatomic, copy) ActionStringDoneBlock onActionSheetDone;
 @property (nonatomic, copy) ActionStringCancelBlock onActionSheetCancel;
 

@@ -40,9 +40,10 @@
     return picker;
 }
 
-- (instancetype)initWithTitle:(NSString *)title rows:(NSArray *)strings initialSelection:(NSInteger)index doneBlock:(ActionStringDoneBlock)doneBlock cancelBlock:(ActionStringCancelBlock)cancelBlockOrNil origin:(id)origin {
+- (instancetype)initWithTitle:(NSString *)title rows:(NSArray *)strings initialSelection:(NSInteger)index selectionUpdatedBlock:(ActionStringSelectionUpdatedBlock)selectionUpdatedBlock doneBlock:(ActionStringDoneBlock)doneBlock cancelBlock:(ActionStringCancelBlock)cancelBlockOrNil origin:(id)origin {
     self = [self initWithTitle:title rows:strings initialSelection:index target:nil successAction:nil cancelAction:nil origin:origin];
     if (self) {
+        self.onActionSheetSelectionUpdated = selectionUpdatedBlock
         self.onActionSheetDone = doneBlock;
         self.onActionSheetCancel = cancelBlockOrNil;
     }
@@ -121,6 +122,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     self.selectedIndex = row;
+    self.onActionSheetSelectionUpdated(self, row, (self.data.count > 0) ? (self.data)[(NSUInteger) self.selectedIndex] : nil)
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
