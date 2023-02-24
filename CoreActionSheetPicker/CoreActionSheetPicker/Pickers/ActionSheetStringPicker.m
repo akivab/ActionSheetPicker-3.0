@@ -34,8 +34,8 @@
 
 @implementation ActionSheetStringPicker
 
-+ (instancetype)showPickerWithTitle:(NSString *)title rows:(NSArray *)strings initialSelection:(NSInteger)index doneBlock:(ActionStringDoneBlock)doneBlock cancelBlock:(ActionStringCancelBlock)cancelBlockOrNil origin:(id)origin {
-    ActionSheetStringPicker * picker = [[ActionSheetStringPicker alloc] initWithTitle:title rows:strings initialSelection:index doneBlock:doneBlock cancelBlock:cancelBlockOrNil origin:origin];
++ (instancetype)showPickerWithTitle:(NSString *)title rows:(NSArray *)strings initialSelection:(NSInteger)index selectionUpdatedBlock:(ActionStringSelectionUpdatedBlock)selectionUpdatedBlock doneBlock:(ActionStringDoneBlock)doneBlock cancelBlock:(ActionStringCancelBlock)cancelBlock origin:(id)origin {
+    ActionSheetStringPicker * picker = [[ActionSheetStringPicker alloc] initWithTitle:title rows:strings initialSelection:index selectionUpdatedBlock:selectionUpdatedBlock doneBlock:doneBlock cancelBlock:cancelBlock origin:origin];
     [picker showActionSheetPicker];
     return picker;
 }
@@ -43,7 +43,7 @@
 - (instancetype)initWithTitle:(NSString *)title rows:(NSArray *)strings initialSelection:(NSInteger)index selectionUpdatedBlock:(ActionStringSelectionUpdatedBlock)selectionUpdatedBlock doneBlock:(ActionStringDoneBlock)doneBlock cancelBlock:(ActionStringCancelBlock)cancelBlockOrNil origin:(id)origin {
     self = [self initWithTitle:title rows:strings initialSelection:index target:nil successAction:nil cancelAction:nil origin:origin];
     if (self) {
-        self.onActionSheetSelectionUpdated = selectionUpdatedBlock
+        self.onActionSheetSelectionUpdated = selectionUpdatedBlock;
         self.onActionSheetDone = doneBlock;
         self.onActionSheetCancel = cancelBlockOrNil;
     }
@@ -122,7 +122,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     self.selectedIndex = row;
-    self.onActionSheetSelectionUpdated(self, row, (self.data.count > 0) ? (self.data)[(NSUInteger) self.selectedIndex] : nil)
+    self.onActionSheetSelectionUpdated(self, row, (self.data.count > 0) ? (self.data)[(NSUInteger) self.selectedIndex] : nil);
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
